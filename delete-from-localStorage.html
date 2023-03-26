@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store data is local storage</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container{
+        /* display: flex; */
+        /* display: inline-block; */
+        height: 20rem;
+        width: 50%;
+        justify-content: center;
+        text-align: center;
+        margin: auto;
+        border-radius: 5px;
+        padding: 30px;
+        border: 2px solid gray;
+        background-color: #1ec4dc;
+    }
+    h1{
+        color: white;
+    }
+    p{
+        margin: 5px;
+        width: 200px;
+        color: white;
+        display: block;
+        text-align: center;
+        
+    }
+    input{
+        width: 200px;
+        font-size: 17px;
+        color: blue;
+    }
+    ul{
+        margin: 50px 0 0 0 ;
+        color: blue;
+    }
+    button{
+        
+        
+        color: red;
+        
+    }
+    form{
+        display: inline-block;
+        text-align: center;
+    }
+
+</style>
+<body>
+    <div class="container">
+        <h1>book appointnemt</h1>
+        <form action="#" id="myForm">
+            <p>
+                <label for="name">name</label>
+            <input type="text" name="name" id="name">
+            </p>
+            <p><label for="email">email</label>
+                <input type="email" name="email" id="email"></p>
+            <p>
+                <label for="number">contact</label>
+            <input type="number" name="number" id="number">
+            </p>
+            <p><input type="submit" name="submit" id="submit" value="book now">
+            </p>
+            
+        </form>
+    </div>
+    <ul id="list">
+        
+    </ul>
+    <script>
+        const form = document.getElementById('myForm');
+        
+        const listItem = document.getElementById('list');
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault()
+                    
+            const nameInput = document.getElementById('name').value;
+            const emailInput = document.getElementById('email').value;
+            const numberInput = document.getElementById('number').value;
+            myObj = {
+                name:nameInput,
+                email:emailInput,
+                number:numberInput
+            }
+            let obj_serialized = JSON.stringify(myObj);
+            
+            showUserDetails(myObj);
+
+            // localStorage.setItem(myObj,obj_serialized);
+            // earliar it was updating local storage
+            // b/c when we pass object in localStorage then kyes should be unique 
+            // to solve this problem i make email as key  
+
+            localStorage.setItem(emailInput,obj_serialized);
+            // localStorage.setItem('email',emailInput);
+            // localStorage.setItem('phone number',numberInput);
+        })
+       function showUserDetails(obj){
+            
+            const list = document.createElement('li');
+            const text = document.createTextNode(`${obj.name} - ${obj.email} - ${obj.number}`);
+            const delBtn = document.createElement('button')
+            delBtn.appendChild(document.createTextNode('delete'))
+            list.appendChild(text);
+            list.appendChild(delBtn);
+            listItem.appendChild(list);
+            delBtn.onclick =()=>{
+                listItem.removeChild(list);
+                localStorage.removeItem(obj.email);
+            }
+            
+        }
+        
+
+    </script>
+</body>
+</html>
