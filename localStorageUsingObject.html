@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Store data is local storage</title>
+</head>
+<body>
+    <form action="#" id="myForm">
+        <label for="name">name</label>
+        <input type="text" name="name" id="name">
+        <label for="email">email</label>
+        <input type="email" name="email" id="email">
+        <label for="number">contact</label>
+        <input type="number" name="number" id="number">
+        <input type="submit" name="submit" id="submit">
+    </form>
+    <ul id="list"></ul>
+    <script>
+        const form = document.getElementById('myForm')
+        form.addEventListener('submit', (e)=>{
+            e.preventDefault()
+                    
+            const nameInput = document.getElementById('name').value;
+            const emailInput = document.getElementById('email').value;
+            const numberInput = document.getElementById('number').value;
+            myObj = {
+                name:nameInput,
+                email:emailInput,
+                number:numberInput
+            }
+            let obj_serialized = JSON.stringify(myObj);
+            
+            showUserDetails(myObj);
+
+            // localStorage.setItem(myObj,obj_serialized);
+            // earliar it was updating local storage
+            // b/c when we pass object in localStorage then kyes should be unique 
+            // to solve this problem i make email as key  
+
+            localStorage.setItem(emailInput,obj_serialized);
+            // localStorage.setItem('email',emailInput);
+            // localStorage.setItem('phone number',numberInput);
+           
+        })
+       function showUserDetails(obj){
+            const list = document.getElementById('list');
+            list.innerHTML = list.innerHTML + `<li>${obj.name} - ${obj.email} - ${obj.number}</li>`;
+            
+        }
+
+    </script>
+</body>
+</html>
