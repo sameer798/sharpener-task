@@ -21,12 +21,29 @@
         const form = document.getElementById('myForm')
         form.addEventListener('submit', (e)=>{
             e.preventDefault()
+            const showUserDetails = document.getElementById('list');
+            const list = document.createElement('li');
             const nameInput = document.getElementById('name').value;
             const emailInput = document.getElementById('email').value;
             const numberInput = document.getElementById('number').value;
-            localStorage.setItem('name',nameInput);
-            localStorage.setItem('email',emailInput);
-            localStorage.setItem('phone number',numberInput);
+            myObj = {
+                name:nameInput,
+                email:emailInput,
+                number:numberInput
+            }
+            let obj_serialized = JSON.stringify(myObj);
+            
+            list.appendChild(document.createTextNode(nameInput+"-"+emailInput+"-"+numberInput));
+            showUserDetails.appendChild(list);
+
+            // localStorage.setItem(myObj,obj_serialized);
+            // earliar it was updating local storage
+            // b/c when we pass object in localStorage then kyes should be unique 
+            // to solve this problem i make email as key  
+
+            localStorage.setItem(emailInput,obj_serialized);
+            // localStorage.setItem('email',emailInput);
+            // localStorage.setItem('phone number',numberInput);
            
         })
 
