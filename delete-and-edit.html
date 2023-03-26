@@ -30,6 +30,7 @@
         <h2 class="title">Add Items</h2>
         <form id="addForm" class="form-inline mb-3">
           <input type="text" class="form-control mr-2" id="item">
+          <input type="text" class="form-control mr-2" id="desc" placeholder="discription">
           <input type="submit" class="btn btn-dark" value="Submit">
         </form>
         <h2 class="title">Items</h2>
@@ -45,6 +46,31 @@
     <script>
         const listItem = document.getElementById('items');
         const del = document.getElementById('del')
+        const form = document.getElementById('addForm');
+        const filter = document.getElementById('filter');
+        
+        form.addEventListener('submit', (e)=>{
+          e.preventDefault();
+          const newLi = document.getElementById('item').value;
+          const desc = document.getElementById('desc').value;
+          const li = document.createElement('li')
+          li.className ='list-group-item';
+          const delBtn = document.createElement('button');
+          delBtn.className = 'btn btn-danger btn-sm float-right delete';
+          const detBtnText = document.createTextNode('X');
+          delBtn.appendChild(detBtnText);
+          const editBtn = document.createElement('button')
+          editBtn.className = 'btn btn-danger btn-sm float-right edit';
+          const editBtnText = document.createTextNode('edit');
+          editBtn.style.backgroundColor = 'grey';
+          editBtn.appendChild(editBtnText);
+          const description = document.createTextNode(desc)
+          li.appendChild(document.createTextNode(newLi));
+          li.appendChild(description);
+          li.appendChild(delBtn);
+          li.appendChild(editBtn);
+          listItem.appendChild(li);
+        })
         
         listItem.addEventListener('click', deleteItem);
         // FUNCTION FOR REMOVING LI
@@ -55,6 +81,26 @@
                 listItem.removeChild(e.target.parentElement);
             }
         }
+        // filter function
+
+        filter.addEventListener('keyup', (e)=>{
+          var items = listItem.getElementsByTagName('li');
+          // console.log(items)
+          Array.from(items).forEach((it)=>{
+             var itemName = it.firstChild.textContent;
+             var desc = it.childNodes[1].textContent;
+             console.log(desc)
+             var text = e.target.value.toLowerCase();
+             
+          if(itemName.toLowerCase().indexOf(text) != -1 || desc.toLocaleLowerCase().indexOf(text) != -1){
+            it.style.display = 'block'
+          }else{
+            it.style.display = 'none';
+          }
+        })
+
+        })
+        
         
         
     </script>
